@@ -41,5 +41,6 @@ class Model:
                 for output_node in self.output_nodes:
                     self.connections.append(Connection(input_node.id, output_node.id))
 
-
+    def mutate(self):
+        pass
 
