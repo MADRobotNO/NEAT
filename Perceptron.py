@@ -31,6 +31,11 @@ class Node:
         return output_data
 
     def activation_function(self, output_data):
+        if self.node_type == self.TYPE_OUTPUT:
+            # returns sigmoid if output node
+            return 1 / (1 + np.exp(-output_data))
+
+        # returns tanh if hidden
         return np.tanh(output_data)
 
     def get_input_data(self, connections, nodes):

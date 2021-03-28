@@ -5,8 +5,8 @@ import numpy as np
 
 class Model:
 
-    def __init__(self, number_of_inputs, numeber_of_outputs):
-
+    def __init__(self, number_of_inputs, numeber_of_outputs, model_id):
+        self.model_id = model_id
         self.outputs = []
         self.innovations_array = []
         self.nodes = []
@@ -161,6 +161,7 @@ class Model:
         return connections
 
     def fit(self, input_data):
+        self.outputs = []
         for index, input_node in enumerate(self.input_nodes):
             input_node.output = input_data[index]
 
@@ -187,7 +188,7 @@ class Model:
         return sum_value
 
     def __str__(self):
-        to_print = "Nodes:\n"
+        to_print = "Model id: " + str(self.model_id) + "\nNodes:\n"
         for node in self.nodes:
             to_print += node.__str__()+"\n"
         to_print += "Connections:\n"
