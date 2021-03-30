@@ -52,6 +52,22 @@ class Model:
         else:
             self.change_weight()
 
+    def mutate_structure(self):
+        select_mutation = np.random.randint(0, 3)
+        if select_mutation < 1:
+            self.create_connection()
+        elif 1 <= select_mutation < 2:
+            self.create_node()
+        elif 2 <= select_mutation < 3:
+            self.enable_disable_connection()
+
+    def mutate_weights(self):
+        select_mutation = np.random.randint(0, 2)
+        if select_mutation < 1:
+            self.adjust_weight()
+        else:
+            self.change_weight()
+
     def create_connection(self, input_output_nodes=None):
         innovation = None
         if input_output_nodes is None:
@@ -182,8 +198,11 @@ class Model:
             node = self.get_node_by_id(connection.from_node)
             if node.output is None:
                 node_connections = self.get_input_connections_by_node(node)
-                node.input = self.calculate_output_for_nodes(node_connections)
-                node.output = node.activation_function(node.input + node.bias)
+                if len(node_connections) == 0:
+                    node.output = node.activation_function(node.bias)
+                else:
+                    node.input = self.calculate_output_for_nodes(node_connections)
+                    node.output = node.activation_function(node.input + node.bias)
             sum_value += node.output * connection.weight
         return sum_value
 
@@ -196,6 +215,6 @@ class Model:
             to_print += connection.__str__()+"\n"
         to_print += "Innovations:\n"
         for innovation in self.innovations_array:
-            to_print += str(innovation)
-        to_print += "\n"
+            to_print += str(innovation) + "\n"
+        to_print += "Fitnes: " + str(self.fitnes) + "\n"
         return to_print

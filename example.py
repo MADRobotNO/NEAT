@@ -1,11 +1,7 @@
 from Neat import Neat
 
-neat = Neat(2, 1, 10)
+neat = Neat(2, 1, 100, 0.3)
 from RandomData import Xor
 xor = Xor()
-print(xor.data)
-print(xor.targets)
-for epoch in range(3):
-    print("Epoch:", epoch)
-    neat.fit_models(xor.data)
-    neat.mutate_models()
+
+neat.fit_models(xor.data, xor.targets, number_of_epochs=100)
